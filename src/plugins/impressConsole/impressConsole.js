@@ -519,13 +519,18 @@
         };
 
         var _init = function( cssConsole, cssIframe ) {
-            if ( cssConsole !== undefined ) {
+
+            [].forEach.call(document.getElementsByClassName('notes'), function (element) {
+                element.style.visibility = 'hidden';
+            });
+
+            if (cssConsole !== undefined) {
                 cssFile = cssConsole;
             }
 
-            // You can also specify the css in the presentation root div:
+                // You can also specify the css in the presentation root div:
             // <div id="impress" data-console-css=..." data-console-css-iframe="...">
-            else if ( root.dataset.consoleCss !== undefined ) {
+            else if (root.dataset.consoleCss !== undefined) {
                 cssFile = root.dataset.consoleCss;
             }
 

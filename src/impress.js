@@ -388,15 +388,17 @@
 
             // Set a default initial state of the canvas
             currentState = {
-                translate: { x: 0, y: 0, z: 0 },
-                rotate:    { x: 0, y: 0, z: 0, order: "xyz" },
-                scale:     1
+                translate: {x: 0, y: 0, z: 0},
+                rotate: {x: 0, y: 0, z: 0, order: "xyz"},
+                scale: 1
             };
+
+            document.getElementsByClassName("fallback-message")[0].style.visibility = "hidden";
 
             initialized = true;
 
-            lib.util.triggerEvent( root, "impress:init",
-                                   { api: roots[ "impress-root-" + rootId ] } );
+            lib.util.triggerEvent(root, "impress:init",
+                {api: roots["impress-root-" + rootId]});
         };
 
         // `getStep` is a helper function that returns a step element defined by parameter.

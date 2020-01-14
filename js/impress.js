@@ -395,6 +395,7 @@
                 scale:     1
             };
 
+            document.getElementsByClassName("fallback-message")[0].style.visibility = "hidden";
             initialized = true;
 
             lib.util.triggerEvent( root, "impress:init",

@@ -101,15 +101,19 @@
                     removeBlackout();
                 }
             }
-        }, false );
+        }, false);
 
-        gc.addEventListener( document, "keyup", function( event ) {
+        gc.addEventListener(document, "keyup", function (event) {
 
             // Accept b or . -> . is sent by presentation remote controllers
-            if ( event.keyCode === 66 || event.keyCode === 190 ) {
+            if (event.keyCode === 66 || event.keyCode === 190) {
                 event.preventDefault();
             }
-        }, false );
+        }, false);
+
+        util.triggerEvent(document, "impress:help:add",
+            {command: "b or .", text: "to hide/unhide all slides", row: 101});
+
 
     }, false );
 

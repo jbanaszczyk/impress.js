@@ -42,11 +42,15 @@
 
     // Detect mobile browsers & add CSS class as appropriate.
     document.addEventListener( "impress:init", function( event ) {
+        if ("ontouchstart" in document.documentElement) {
+            document.querySelector(".hint").innerHTML = "<p>Swipe left or right to navigate</p>";
+        }
+
         var body = document.body;
-        if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-                 navigator.userAgent
-             ) ) {
-            body.classList.add( "impress-mobile" );
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent
+        )) {
+            body.classList.add("impress-mobile");
         }
 
         // Unset all this on teardown
