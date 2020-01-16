@@ -167,14 +167,14 @@
 
     // Some default config values.
     var defaults = {
-        width: 1024,
-        height: 768,
-        maxScale: 1,
+        width: 1920,
+        height: 1080,
+        maxScale: 10,
         minScale: 0,
 
         perspective: 1000,
 
-        transitionDuration: 1000
+        transitionDuration: 333
     };
 
     // It's just an empty function ... and a useless comment.
@@ -329,7 +329,7 @@
             // First we set up the viewport for mobile devices.
             // For some reason iPad goes nuts when it is not done properly.
             var meta = lib.util.$( "meta[name='viewport']" ) || document.createElement( "meta" );
-            meta.content = "width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no";
+            meta.content = "width=device-width, minimum-scale=0, maximum-scale=10, user-scalable=no";
             if ( meta.parentNode !== document.head ) {
                 meta.name = "viewport";
                 document.head.appendChild( meta );
@@ -340,12 +340,10 @@
             config = {
                 width: lib.util.toNumber( rootData.width, defaults.width ),
                 height: lib.util.toNumber( rootData.height, defaults.height ),
-                maxScale: lib.util.toNumber( rootData.maxScale, defaults.maxScale ),
-                minScale: lib.util.toNumber( rootData.minScale, defaults.minScale ),
+                maxScale: lib.util.toNumber( rootData.maxscale, defaults.maxScale ),
+                minScale: lib.util.toNumber( rootData.minscale, defaults.minScale ),
                 perspective: lib.util.toNumber( rootData.perspective, defaults.perspective ),
-                transitionDuration: lib.util.toNumber(
-                    rootData.transitionDuration, defaults.transitionDuration
-                )
+                transitionDuration: lib.util.toNumber( rootData.transitionduration, defaults.transitionDuration )
             };
 
             windowScale = computeWindowScale( config );
@@ -393,7 +391,16 @@
                 scale: 1
             };
 
-            document.getElementsByClassName("fallback-message")[0].style.visibility = "hidden";
+            document.querySelectorAll(".step").forEach(function(element, index, array) {
+                css( element, {
+                    width: window.innerWidth + "px",
+                    height: window.innerHeight + "px"
+                } );
+            });
+
+            document.querySelectorAll(".fallback-message").forEach(function(element, index, array) {
+                element.style.visibility = "hidden"
+            });
 
             initialized = true;
 
