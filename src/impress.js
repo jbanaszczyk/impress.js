@@ -391,8 +391,8 @@
                 scale: 1
             };
 
-            console.log("width:  " +window.innerWidth)
-            console.log("height: " +window.innerHeight)
+            console.log( "width:  " + window.innerWidth );
+            console.log( "height: " + window.innerHeight );
 
             document.querySelectorAll(".step").forEach(function(element, index, array) {
                 css( element, {

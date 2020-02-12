@@ -59,25 +59,14 @@
 
     } )();
 
-    var removeBlackout = function() {
-        if ( blackedOut ) {
-            css( canvas, {
-                display: "block"
-            } );
-            blackedOut = false;
-            util.triggerEvent( root, "impress:autoplay:play", {} );
-        }
-    };
-
-    var blackout = function() {
-        if ( blackedOut ) {
-            removeBlackout();
-        } else {
-            css( canvas, {
-                display: ( blackedOut = !blackedOut ) ? "none" : "block"
-            } );
-            blackedOut = true;
-            util.triggerEvent( root, "impress:autoplay:pause", {} );
+    var flipBlackout = function( newState ) {
+        if ( newState !== blackedOut ) {
+            blackedOut = newState !== undefined ? newState : !blackedOut;
+            css( root.firstElementChild, { display: blackedOut ? "none" : "block" } );
+            util.triggerEvent( root, blackedOut ? "impress:autoplay:pause" : "impress:autoplay:play", {} );
+            if ( newState === undefined ) {
+                api.goto( document.querySelector( ".step.active" ), 0 );
+            }
         }
     };
 
@@ -95,30 +84,25 @@
             // Accept b or . -> . is sent by presentation remote controllers
             if ( event.keyCode === 66 || event.keyCode === 190 ) {
                 event.preventDefault();
-                if ( !blackedOut ) {
-                    blackout();
-                } else {
-                    removeBlackout();
-                }
+                flipBlackout();
             }
-        }, false);
+        }, false );
 
-        gc.addEventListener(document, "keyup", function (event) {
+        gc.addEventListener( document, "keyup", function( event ) {
 
             // Accept b or . -> . is sent by presentation remote controllers
-            if (event.keyCode === 66 || event.keyCode === 190) {
+            if ( event.keyCode === 66 || event.keyCode === 190 ) {
                 event.preventDefault();
             }
-        }, false);
+        }, false );
 
-        util.triggerEvent(document, "impress:help:add",
-            {command: "b or .", text: "to hide/unhide all slides", row: 101});
-
+        util.triggerEvent( document, "impress:help:add",
+            { command: "b or .", text: "to hide/unhide all slides", row: 101 } );
 
     }, false );
 
     document.addEventListener( "impress:stepleave", function() {
-        removeBlackout();
+        flipBlackout( false );
     }, false );
 
 } )( document );

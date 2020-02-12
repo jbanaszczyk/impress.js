@@ -92,7 +92,8 @@ module.exports = {
         "line-comment-position": "off",
         "linebreak-style": [
             "error",
-            "unix"
+            // "unix",
+            "windows"
         ],
         "lines-around-comment": "error",
         "lines-around-directive": "off",
