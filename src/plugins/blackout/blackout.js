@@ -80,18 +80,24 @@
         var util = api.lib.util;
 
         gc.addEventListener( document, "keydown", function( event ) {
+            if (event.defaultPrevented) {
+                return;
+            }
 
             // Accept b or . -> . is sent by presentation remote controllers
-            if ( event.keyCode === 66 || event.keyCode === 190 ) {
+            if ( event.key === "." || event.keyCode === "b" ) {
                 event.preventDefault();
                 flipBlackout();
             }
         }, false );
 
         gc.addEventListener( document, "keyup", function( event ) {
+            if (event.defaultPrevented) {
+                return;
+            }
 
             // Accept b or . -> . is sent by presentation remote controllers
-            if ( event.keyCode === 66 || event.keyCode === 190 ) {
+            if ( event.key === "." || event.keyCode === "b" ) {
                 event.preventDefault();
             }
         }, false );

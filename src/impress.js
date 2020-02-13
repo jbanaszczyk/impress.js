@@ -401,10 +401,6 @@
                 } );
             });
 
-            document.querySelectorAll(".fallback-message").forEach(function(element, index, array) {
-                element.style.visibility = "hidden"
-            });
-
             initialized = true;
 
             lib.util.triggerEvent(root, "impress:init",
