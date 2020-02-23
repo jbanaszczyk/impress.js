@@ -24,44 +24,53 @@
  * Released under the MIT license.
  */
 /* global window, document */
-( function( document, window ) {
-    "use strict";
-    var timeout = 3;
-    var timeoutHandle;
+(function (document, window) {
 
-    var hide = function() {
+    // using firefox: there is a conflict with blackout.js
+    // it looks like firefox bug
 
-        // Mouse is now inactive
-        document.body.classList.add( "impress-mouse-timeout" );
-    };
+    var x  =  navigator.userAgent.toLowerCase().indexOf('firefox');
 
-    var show = function() {
-        if ( timeoutHandle ) {
-            window.clearTimeout( timeoutHandle );
-        }
+    if (navigator.userAgent.toLowerCase().indexOf('firefox') == -1) {
 
-        // Mouse is now active
-        document.body.classList.remove( "impress-mouse-timeout" );
+        "use strict";
+        var timeout = 3;
+        var timeoutHandle;
 
-        // Then set new timeout after which it is considered inactive again
-        timeoutHandle = window.setTimeout( hide, timeout * 1000 );
-    };
+        var hide = function () {
 
-    document.addEventListener( "impress:init", function( event ) {
-        var api = event.detail.api;
-        var gc = api.lib.gc;
-        gc.addEventListener( document, "mousemove", show );
-        gc.addEventListener( document, "click", show );
-        gc.addEventListener( document, "touch", show );
+            // Mouse is now inactive
+            document.body.classList.add("impress-mouse-timeout");
+        };
 
-        // Set first timeout
-        show();
+        var show = function () {
+            if (timeoutHandle) {
+                window.clearTimeout(timeoutHandle);
+            }
 
-        // Unset all this on teardown
-        gc.pushCallback( function() {
-            window.clearTimeout( timeoutHandle );
-            document.body.classList.remove( "impress-mouse-timeout" );
-        } );
-    }, false );
+            // Then set new timeout after which it is considered inactive again
+            timeoutHandle = window.setTimeout(hide, timeout * 1000);
 
-} )( document, window );
+            // Mouse is now active
+            document.body.classList.remove("impress-mouse-timeout");
+
+        };
+
+        document.addEventListener("impress:init", function (event) {
+            var api = event.detail.api;
+            var gc = api.lib.gc;
+            gc.addEventListener(document, "mousemove", show);
+            gc.addEventListener(document, "click", show);
+            gc.addEventListener(document, "touch", show);
+
+            // Set first timeout
+            show();
+
+            // Unset all this on teardown
+            gc.pushCallback(function () {
+                window.clearTimeout(timeoutHandle);
+                document.body.classList.remove("impress-mouse-timeout");
+            });
+        }, false);
+    }
+})(document, window);
